@@ -26,5 +26,5 @@ object Webservice extends App {
   val service = actorSystem.actorOf(Props[MinecraftControllerActor], "spray-service")
 
   // start a new HTTP server on port 8080 with our service actor as the handler
-  IO(Http).tell(Http.Bind(service, "localhost", 8080), callbackActor)
+  IO(Http).tell(Http.Bind(service, "10.10.14.201", 8080), callbackActor)
 }

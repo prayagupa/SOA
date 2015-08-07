@@ -11,36 +11,45 @@ import javax.xml.ws.Endpoint
 
 //http://www.mkyong.com/webservices/jax-ws/jax-ws-hello-world-example-document-style/
 
-@WebService(targetNamespace="org.scalabound.minecraft",
-            name="org.scalabound.minecraft",
-            portName="minecraft",
-            serviceName="WSMinecraft")
-private class SoapServer {
-
-  @SOAPBinding(style = Style.RPC)
-  def minecraft(value : String) = "Welcome " + value
-
-}
-
-object SoapServer {                                          // defined Companion Object for our class
-
-  def main(args: Array[String]) {                                   // main method to make this a runnable application
-  val endpoint = Endpoint.publish("http://localhost:8080/wsminecraft", new SoapServer())
-    System.out.println("Waiting for requests...")
-  }
-}
-
-//@WebService(targetNamespace="org.scalabound.test", name="org.scalabound.test", portName="test", serviceName="WSTest")
-//private class MinimalSoapServer {
+//@WebService(targetNamespace="org.scalabound.minecraft",
+//            name="org.scalabound.minecraft",
+//            portName="minecraft",
+//            serviceName="WSMinecraft")
+//private class SoapServer {
 //
 //  @SOAPBinding(style = Style.DOCUMENT)
-//  def test(value : String) = "Hi " + value
+//  def minecraft() = "Welcome to MUM"
 //
 //}
-//object MinimalSoapServer {                                          // defined Companion Object for our class
+//
+//object SoapServer {                                          // defined Companion Object for our class
 //
 //  def main(args: Array[String]) {                                   // main method to make this a runnable application
-//  val endpoint = Endpoint.publish("http://localhost:8080/wstest", new MinimalSoapServer())
+//  val endpoint = Endpoint.publish("http://10.10.14.201:8082/wsminecraft", new SoapServer())
 //    System.out.println("Waiting for requests...")
 //  }
 //}
+
+@WebService(targetNamespace="org.unified.apple",
+  name="org.unified.apple",
+  portName="apple",
+  serviceName="WSApple")
+private class SoapServer {
+
+  @SOAPBinding(style = Style.DOCUMENT)
+  def apple() = {
+    println("Invoked from client")
+    "Hi"
+  }
+
+}
+object SoapServer {                                          // defined Companion Object for our class
+
+  def main(args: Array[String]) {                                   // main method to make this a runnable application
+    System.out.println("Starting SoapServer...")
+    //http://localhost:8082/wsApple/apple?value=1
+    val endpoint = Endpoint.publish("http://10.10.14.201:8082/wsApple", new SoapServer())
+    //val endpoint = Endpoint.publish("http://10.10.14.201:8082/wstest", new SoapServer())
+    System.out.println("Waiting for requests...")
+  }
+}

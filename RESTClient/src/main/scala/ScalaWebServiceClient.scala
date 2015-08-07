@@ -4,13 +4,18 @@
 object ScalaWebServiceClient {
 
     def main(args : Array[String]) = {
-        val lat = args(0).toInt
-        val long_ = args(1).toInt
+        //val lat = args(0).toInt
+        //val long_ = args(1).toInt
 
         //consumeCdyne()
-        consumeLocalWS(lat, long_)
+        //consumeLocalWS(lat, long_)
+
     }
 
+    def consumeRemoteApi = {
+	
+    }
+    
     def consumeLocalWS(lat : Int, long_ : Int)  : Unit = {
         println(s"calling http://localhost:8080/api/elevation/${lat}/${long_}")
         val url = s"http://localhost:8080/api/elevation/${lat}/${long_}"
