@@ -37,9 +37,9 @@ import javax.xml.ws.Endpoint
 private class SoapServer {
 
   @SOAPBinding(style = Style.DOCUMENT)
-  def apple() = {
-    println("Invoked from client")
-    "Hi"
+  def apple() : String = {
+    println("Invoked from soap client")
+    "You got an unified apple."
   }
 
 }
