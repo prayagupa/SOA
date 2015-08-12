@@ -1,0 +1,3 @@
+development:
+        validation: 'http://localhost:8888/validate'
+        payment: 'http://localhost:9090/payment'
