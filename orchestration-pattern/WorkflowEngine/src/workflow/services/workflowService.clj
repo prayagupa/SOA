@@ -21,7 +21,11 @@
     (println " " key)
     (println "====================== workflow step "  key " "  (get (conf/development) key) " =========== ")
      (println (postRequest (get (conf/development) key) params))
-     (println "")))
+     (println ""))
+
+   (println "PAYMENT FLOW COMPLETED")
+   {:body {:status "COMPLETED"}}
+  )
 
 
 
