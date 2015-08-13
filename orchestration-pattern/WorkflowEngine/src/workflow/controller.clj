@@ -8,9 +8,13 @@
            [ring.middleware.json :as middleware]
            [compojure.route       :as route]))
 
+;;(defn json-response [data & [status]]
+;;  {:status (or status 200)
+;;   :headers {"Content-Type" "application/json"}
+;;   :body (json/generate-string data)})
 
 (defroutes app-routes
-           (GET "/" [] (workflow))
+           (GET "/" [] (workflow)) ;;(json-response {"server" "ready"}))
            (GET "/workflow" [] (workflow))
            (route/not-found "Not Found"))
 

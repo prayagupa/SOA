@@ -17,6 +17,7 @@
 
 (defn workflow []
   (println "number of components in workflow : " (count (conf/development)))
+  (try 
   (doseq [key (keys (conf/development))]
     (println " " key)
     (println "====================== workflow step "  key " "  (get (conf/development) key) " =========== ")
@@ -25,7 +26,9 @@
 
    (println "PAYMENT FLOW COMPLETED")
    {:body {:status "COMPLETED"}}
-  )
+   (catch Exception ex
+     (println "server failure")
+     ;;("server failure")
+     )))
 
-
-
+;(def ready {:body {:status "READY"}})

@@ -5,6 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :repositories {"conjars" "http://conjars.org/repo"}
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [clj-json "0.2.0"]
+                 [ring-json-params "0.1.0"]
                  [congomongo "0.4.3"]
                  [clojurewerkz/elastisch "1.4.0"]
                  [ring/ring-json "0.3.1"]
