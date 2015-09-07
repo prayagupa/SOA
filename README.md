@@ -13,35 +13,35 @@ PART 1 SOA PATTERNS
  2.5. Edge Component pattern
 
 3. CHAPTER 3 PATTERNS FOR PERFORMANCE, SCALABILITY, AND AVAILABILITY
- 3.1. Decoupled Invocation pattern // RequestQueue, ReplyQueue // Apache Kafka
+ 3.1. Decoupled Invocation pattern                 // RequestQueue, ReplyQueue // Apache Kafka
  3.2. Parallel Pipelines pattern
- 3.3. Gridable Service pattern
- 3.4. Service Instance pattern
+ 3.3. Gridable Service pattern                     //Horizonatal scaling
+ 3.4. Service Instance pattern                     //Horizonatal scaling
  3.5. Virtual Endpoint pattern
  3.6. Service Watchdog pattern
 
 4. CHAPTER 4 SECURITY AND MANAGEABILITY PATTERNS
- 4.1. Secured Message pattern
- 4.2. Secured Infrastructure pattern
- 4.3. Service Firewall pattern
- 4.4. Identity Provider pattern
+ 4.1. Secured Message pattern                       //Encrypt - message level
+ 4.2. Secured Infrastructure pattern                //Encrypt - protocol level
+ 4.3. Service Firewall pattern                      //network level
+ 4.4. Identity Provider pattern                     //SSO
  4.5. Service Monitor pattern
 
 5. CHAPTER 5 MESSAGE EXCHANGE PATTERNS
- 5.1. Request/Reply pattern
- 5.2. Request/Reaction pattern
- 5.3. Inversion of Communications pattern
- 5.4. Saga pattern
+ 5.1. Request/Reply pattern                          //Synchronous
+ 5.2. Request/Reaction pattern                       //Async
+ 5.3. Inversion of Communications pattern            //EDA (Event-Driven Architecture) - Reactive??
+ 5.4. Saga pattern                                   //Long running business transaction
 
 6. CHAPTER 6 SERVICE CONSUMER PATTERNS
- 6.1. Reservation pattern
- 6.2. Composite Front End (Portal) pattern
+ 6.1. Reservation pattern                            //saga
+ 6.2. Composite Front End (Portal) pattern           
  6.3. Client/Server/Service pattern
 
 7. CHAPTER 7 SERVICE INTEGRATION PATTERNS
- 7.1 Aggregator Reporting
- 7.2 ESB
- 7.3 orchestration pattern
+ 7.1 SB                                             
+ 7.2 orchestration pattern                          //Externalize business long running processes
+ 7.3 Aggregated Reporting                           
 
 PART 2 SOA IN THE REAL WORLD
 --------------------------------------
@@ -92,3 +92,5 @@ Compound Patterns
  Wrapper
 
 ```
+
+[SOA Patterns - Book Review](http://mkuthan.github.io/blog/2014/06/26/soa-patterns-book-review/)
