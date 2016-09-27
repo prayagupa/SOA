@@ -27,3 +27,41 @@ INFO: Deployment of web application archive /var/lib/tomcat7/webapps/YellowLemon
 
 check the SOAP service at `http://172.16.35.155:8080/YellowLemonsSoapServer/lemons` which will direct to WSDL file 
 at `http://172.16.35.155:8080/YellowLemonsSoapServer/lemons?wsdl`
+
+`lemons` endpoint is mapped to SOAP webservice `LemonEndpoint` in web.xml, so `/lemons` works as a http `GET` request. 
+I was struggling to call `/LemonEndpoint.svc?wsdl` as some internet people told me so, maybe that `.NET` way,
+I wonder why people still use `dead.NET`
+ 
+
+```xml
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.pseudo.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://ws.pseudo.com/" name="LemonsEndpointImplService">
+<types/>
+<message name="getLemons"/>
+<message name="getLemonsResponse">
+<part name="return" type="xsd:string"/>
+</message>
+<portType name="LemonsEndpoint">
+<operation name="getLemons" parameterOrder="">
+<input message="tns:getLemons"/>
+<output message="tns:getLemonsResponse"/>
+</operation>
+</portType>
+<binding name="LemonsEndpointImplPortBinding" type="tns:LemonsEndpoint">
+<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="getLemons">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal" namespace="http://ws.pseudo.com/"/>
+</input>
+<output>
+<soap:body use="literal" namespace="http://ws.pseudo.com/"/>
+</output>
+</operation>
+</binding>
+<service name="LemonsEndpointImplService">
+<port name="LemonsEndpointImplPort" binding="tns:LemonsEndpointImplPortBinding">
+<soap:address location="http://172.16.35.155:8080/YellowLemonsSoapServer/lemons"/>
+</port>
+</service>
+</definitions>
+```
