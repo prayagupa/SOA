@@ -1,6 +1,10 @@
 Java Web service deployment to tomcat7
 --------------------------------------
 
+It demonstrates how to create a SOAP webservice (using `@WebService` and `@WebMethod`), and definitely deploy 
+to tomcat7 server.
+
+
 build war
 ---------
 
@@ -64,4 +68,69 @@ I wonder why people still use `dead.NET`
 </port>
 </service>
 </definitions>
+```
+
+
+hit the endpoint using SOAP clients
+-----------------------------------
+
+#request with no param
+
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.pseudo.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:getLemons/>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+response
+
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soapenv:Body>
+      <ans:getLemonsResponse xmlns:ans="http://ws.pseudo.com/">
+         <return>lemons</return>
+      </ans:getLemonsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+#request with param
+
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.pseudo.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:hitTheWallWithLemons>
+         <arg0>potato lemon</arg0>
+      </ws:hitTheWallWithLemons>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+response
+
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soapenv:Body>
+      <ans:hitTheWallWithLemonsResponse xmlns:ans="http://ws.pseudo.com/">
+         <return>potato lemon</return>
+      </ans:hitTheWallWithLemonsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+I want to see the usage of `<soapenv:Header>`. Some example i found,
+
+```
+  <soapenv:Header>
+    <ns1:RequestHeader
+         soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"
+         soapenv:mustUnderstand="0"
+         xmlns:ns1="https://www.google.com/apis/ads/publisher/v201605">
+      <ns1:networkCode>123456</ns1:networkCode>
+      <ns1:applicationName>DfpApi-Java-2.1.0-dfp_test</ns1:applicationName>
+    </ns1:RequestHeader>
 ```
