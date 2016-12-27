@@ -6,7 +6,7 @@ import akka.event.Logging
 import akka.io.IO
 import akka.io.Tcp._
 import spray.can.Http
-import webservice.controller.MinecraftControllerActor
+import webservice.controller.ElevationHttpActor
 
 object Webservice extends App {
 
@@ -18,13 +18,13 @@ object Webservice extends App {
     become {
       case b @ Bound(connection) => log.info(b.toString)
       case cf @ CommandFailed(command) => log.error(cf.toString)
-      case all => log.debug("SprayApiDemo App Received a message from Akka.IO: " + all.toString)
+      case all => log.debug("AkkaHttpDemo App Received a message from Akka.IO: " + all.toString)
     }
   })
 
   // create and start our service actor
-  val service = actorSystem.actorOf(Props[MinecraftControllerActor], "spray-service")
+  val service = actorSystem.actorOf(Props[ElevationHttpActor], "akka-http-service")
 
   // start a new HTTP server on port 8080 with our service actor as the handler
-  IO(Http).tell(Http.Bind(service, "10.10.14.201", 8080), callbackActor)
+  IO(Http).tell(Http.Bind(service, "localhost", 9191), callbackActor)
 }

@@ -6,19 +6,19 @@ import spray.json.DefaultJsonProtocol._
 import spray.routing.RequestContext
 import spray.json._
 
-object ElevationService {
-  case class Process(long: Double, lat: Double)
+object ElevationActor {
+  case class ElevationObject(long: Double, lat: Double)
 }
 
-class ElevationService(requestContext: RequestContext) extends Actor {
+class ElevationActor(requestContext: RequestContext) extends Actor {
 
-  import ElevationService._
+  import ElevationActor._
 
   implicit val system = context.system
   val log = Logging(system, getClass)
 
   def receive = {
-    case Process(long,lat) =>
+    case ElevationObject(long,lat) =>
       process(long,lat)
       context.stop(self)
   }

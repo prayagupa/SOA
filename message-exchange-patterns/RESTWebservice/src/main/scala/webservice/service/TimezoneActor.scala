@@ -4,19 +4,19 @@ import akka.actor.Actor
 import akka.event.Logging
 import spray.routing.RequestContext
 
-object TimezoneService {
-  case class Process(long: Double, lat: Double, timestamp: String)
+object TimezoneActor {
+  case class TimezoneObject(long: Double, lat: Double, timestamp: String)
 }
 
-class TimezoneService(requestContext: RequestContext) extends Actor {
+class TimezoneActor(requestContext: RequestContext) extends Actor {
 
-  import TimezoneService._
+  import TimezoneActor._
 
   implicit val system = context.system
   val log = Logging(system, getClass)
 
   def receive = {
-    case Process(long,lat,timestamp) =>
+    case TimezoneObject(long,lat,timestamp) =>
       process(long,lat,timestamp)
       context.stop(self)
   }
