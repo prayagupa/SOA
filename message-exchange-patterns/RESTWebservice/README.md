@@ -13,6 +13,11 @@ Getting Started
 4. Use the api
 
 ```
+curl -XPOST -H "Content-Type: application/json" http://localhost:9191/shipment -d '{ "name": "some existing package" }'
+{
+  "status": "Ok"
+}
+
 curl -XGET http://localhost:9191/shipment
 ```
 

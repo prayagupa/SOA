@@ -7,7 +7,10 @@ import spray.json.DefaultJsonProtocol
 
 object Models {
   case class PackageShipment(name: String)
+  case class Acknowledge(status: String)
+
   object ServiceJsonProtoocol extends DefaultJsonProtocol {
     implicit val shipmentProtocol = jsonFormat1(PackageShipment)
+    implicit val ack = jsonFormat1(Acknowledge)
   }
 }

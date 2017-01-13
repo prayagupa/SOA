@@ -2,7 +2,7 @@
 
 import java.util.concurrent.ConcurrentLinkedDeque
 
-import Models.PackageShipment
+import Models.{Acknowledge, PackageShipment}
 import akka.actor.ActorSystem
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import akka.http.scaladsl.server.Directives._
@@ -25,12 +25,15 @@ trait HttpRoutes {
   import Models.ServiceJsonProtoocol._
 
   val route =
+    //TODO authenticate + authorization
+    // http://doc.akka.io/docs/akka-stream-and-http-experimental/1.0/scala/http/routing-dsl/directives/security-directives/index.html
     path("shipment") {
       post {
         entity(as[PackageShipment]) {
           shipment => complete {
             shipments.add(shipment)
-            s"got package with package id ${shipment.name}"
+            //TODO write to stream
+            Acknowledge(status = "Ok")
           }
         }
       } ~
