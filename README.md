@@ -1,10 +1,10 @@
-SOA patterns (with scala)
+SOA patterns (with java)
 ----------------------------
 
-```
 PART 1 SOA PATTERNS/ PATTERNS FOR DISTRIBUTED SYSTEM
 ----------------------
 
+```
 2. FOUNDATION STRUCTURAL PATTERNS
  2.1. Service Host pattern
  2.2. Active Service pattern
@@ -42,10 +42,12 @@ PART 1 SOA PATTERNS/ PATTERNS FOR DISTRIBUTED SYSTEM
  7.1 SB                                             
  7.2 orchestration pattern                          //Externalize business long running processes
  7.3 Aggregated Reporting                           
+```
 
 PART 2 SOA IN THE REAL WORLD
 --------------------------------------
 
+```
 8. SERVICE ANTIPATTERNS
 
 //book = "https://www.manning.com/books/soa-patterns"
