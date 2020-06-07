@@ -4,54 +4,100 @@ SOA patterns (with java)
 PART 1 SOA PATTERNS/ PATTERNS FOR DISTRIBUTED SYSTEM
 ----------------------
 
-```
-2. FOUNDATION STRUCTURAL PATTERNS
- 2.1. Service Host pattern
- 2.2. Active Service pattern
- 2.3. Transactional Service pattern
- 2.4. Workflodize pattern
- 2.5. Edge Component pattern
 
-3. PATTERNS FOR PERFORMANCE, SCALABILITY, AND AVAILABILITY
- 3.1. Decoupled Invocation pattern                 // RequestQueue, ReplyQueue // Apache Kafka
+2 FOUNDATION STRUCTURAL PATTERNS
+--
+
+2.1. Service Host pattern
+
+2.2. Active Service pattern
+
+2.3. Transactional Service pattern
+
+2.4. Workflodize pattern
+
+2.5. [Edge Component pattern](http://www.rgoarchitects.com/Files/SOAPatterns/EdgeComponent.pdf)
+- Service gateway
+- https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-offloading
+
+3 PATTERNS FOR PERFORMANCE, SCALABILITY, AND AVAILABILITY
+------
+
+ 3.1. [Decoupled Invocation pattern](https://arnon.me/soa-patterns/decoupled-invocation/)                 
+- RequestQueue, ReplyQueue 
+- Apache Kafka
+- https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs
+ 
  3.2. Parallel Pipelines pattern
- 3.3. Gridable Service pattern                     //Horizonatal scaling
- 3.4. Service Instance pattern                     //Horizonatal scaling
- 3.5. Virtual Endpoint pattern
- 3.6. Service Watchdog pattern
+ 
+ 3.3. [Gridable Service pattern](https://arnon.me/soa-patterns/gridable-service/)                     
+ - Horizonatal scaling
+ - http://www.rgoarchitects.com/Files/SOAPatterns/GridableService.pdf
+ - grid head node, grid agent nodes
+ 
+ 3.4. Service Instance pattern                     
+ - Horizonatal scaling
+ 
+ 3.5. [Virtual Endpoint pattern](https://arnon.me/soa-patterns/virtual-endpoint/)
+ - Implement the Virtual Endpoint pattern, wrapping multiple instances of the edge component 
+ to create a virtual endpoint that provides location transparency.
+ - https://docs.microsoft.com/en-us/azure/architecture/patterns/gateway-aggregation
+ 
+ 3.6. [Service Watchdog pattern](https://arnon.me/soa-patterns/service-watchdog/)
+- https://github.com/duwamish-os/swasthya
+- service actively monitors its internal state, acts on potential trouble, 
+tries to heal itself, and continuously publishes its status.
 
-4. SECURITY AND MANAGEABILITY PATTERNS
+4 SECURITY AND MANAGEABILITY PATTERNS
+------------------------
+
  4.1. Secured Message pattern                       //Encrypt - message level
+ 
  4.2. Secured Infrastructure pattern                //Encrypt - protocol level
+ 
  4.3. Service Firewall pattern                      //network level
+ 
  4.4. Identity Provider pattern                     //SSO
+ 
  4.5. Service Monitor pattern
 
-5. MESSAGE EXCHANGE PATTERNS
- 5.1. Request/Reply pattern                          //Synchronous
- 5.2. Request/Reaction pattern                       //Async
- 5.3. Inversion of Communications pattern            //EDA (Event-Driven Architecture) - Reactive??
- 5.4. Saga pattern                                   //Long running business transaction
+5 MESSAGE EXCHANGE PATTERNS
+----------------------------
 
-6. SERVICE CONSUMER PATTERNS
+5.1. Request/Reply pattern                          //Synchronous
+
+5.2. Request/Reaction pattern                       //Async
+
+5.3. Inversion of Communications pattern            //EDA (Event-Driven Architecture) - Reactive??
+
+5.4. Saga pattern                                   //Long running business transaction
+ 
+
+6 SERVICE CONSUMER PATTERNS
+---------------
+
  6.1. Reservation pattern                            //saga
- 6.2. Composite Front End (Portal) pattern           
+ 
+ 6.2. Composite Front End (Portal) pattern
+            
  6.3. Client/Server/Service pattern
+ 
 
-7. SERVICE INTEGRATION PATTERNS
+7 SERVICE INTEGRATION PATTERNS
+------------
+
  7.1 SB                                             
  7.2 orchestration pattern                          //Externalize business long running processes
  7.3 Aggregated Reporting                           
-```
 
 PART 2 SOA IN THE REAL WORLD
 --------------------------------------
 
-```
+
 8. SERVICE ANTIPATTERNS
 
-//book = "https://www.manning.com/books/soa-patterns"
-```
+- "https://www.manning.com/books/soa-patterns"
+
 
 References
 ---------------
