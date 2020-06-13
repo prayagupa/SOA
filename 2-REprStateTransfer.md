@@ -168,35 +168,41 @@ Payload validation with checksum
 
 [Hash-based MAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
 
-```scala
+- Can be generated online at - https://www.freeformatter.com/hmac-generator.html#ad-output
+- https://github.com/duwamish-os/http-signature
+
+```java
 var hash_based_auth_code = function hash_based_MAC ("SHA-1" or "MD5", message) {}
 ```
 
 * Hash-based Message auth code (HMAC)
 
-```scala
-scala> import javax.crypto._
-import javax.crypto._
+```java
+jshell> import javax.crypto.*
 
-scala> val key = KeyGenerator.getInstance("HmacMD5").generateKey()
-key: javax.crypto.SecretKey = javax.crypto.spec.SecretKeySpec@3d0dcd45
+//jshell> var key = KeyGenerator.getInstance("HmacMD5").generateKey()
+//key ==> javax.crypto.spec.SecretKeySpec@c2f225ef
 
-scala> val m_auth_code = Mac.getInstance("HmacMD5")
-m_auth_code: javax.crypto.Mac = javax.crypto.Mac@151ef57f
+jshell> import javax.crypto.spec.*
 
-scala> m_auth_code.init(key)
+jshell> var key = new SecretKeySpec("api-key".getBytes(), "HmacMD5")
+key ==> javax.crypto.spec.SecretKeySpec@3d0dd473
 
-scala> m_auth_code.doFinal("prayagupd".getBytes())
-res1: Array[Byte] = Array(92, 124, 54, -100, -22, -122, 32, 43, 64, -41, -119, -20, 47, -94, 108, -6)
+jshell> var m_auth_code = Mac.getInstance("HmacMD5")
+m_auth_code ==> javax.crypto.Mac@5679c6c6
 
-scala> import java.math.BigInteger
-import java.math.BigInteger
+jshell> m_auth_code.init(key)
 
-scala> new BigInteger(m_auth_code.doFinal("prayagupd".getBytes()))
-res32: java.math.BigInteger = -19609729033103877021779594872999511452
+jshell> m_auth_code.doFinal("pra".getBytes())
+$9 ==> byte[16] { 114, -117, 101, -50, 48, 86, -1, -38, -58, 32, 115, 10, 125, 78, 124, -73 }
 
-scala> new BigInteger(m_auth_code.doFinal("prayagupd".getBytes())).toString(16)
-res33: String = -ec0b2498a01c19031cdd580662e059c
+jshell> import java.math.BigInteger
+jshell> new BigInteger($9)
+$10 ==> 152255785642148653639597405347834133687
+
+jshell> $10.toString(16)
+$11 ==> "728b65ce3056ffdac620730a7d4e7cb7"
+
 ```
 
 https://security.stackexchange.com/questions/36932/what-is-the-difference-between-ssl-and-x-509-certificates
