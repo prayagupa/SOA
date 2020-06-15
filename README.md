@@ -47,6 +47,7 @@ PART 1 SOA PATTERNS/ PATTERNS FOR DISTRIBUTED SYSTEM
 - https://github.com/duwamish-os/swasthya
 - service actively monitors its internal state, acts on potential trouble, 
 tries to heal itself, and continuously publishes its status.
+- https://docs.microsoft.com/en-us/azure/developer/java/fundamentals/java-get-started-with-logzio
 
 4 SECURITY AND MANAGEABILITY PATTERNS
 ------------------------
