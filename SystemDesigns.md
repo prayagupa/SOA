@@ -36,3 +36,7 @@ STEP 7) Identifying and resolving bottlenecks
 - How are we monitoring the performance of our service? 
 - Do we get alerts whenever critical components fail or their performance degrades?
 
+References
+----------
+
+https://github.com/donnemartin/system-design-primer
