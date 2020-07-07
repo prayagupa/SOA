@@ -85,14 +85,16 @@ running on a server that generates web pages dynamically.
 | code | for                         | desc                     |                    
 |------|-----------------------------|--------------------------|                                        
 |1xx   | Informational               | 102        Processing    |                                        
-|2xx   | Successful // gliffy, 2015  | 201        Created       |                               
+|2xx   | Successful                  | 201        Created, gliffy, 2015 |                               
 |      |                             | 202        Accepted        |                                 
 |      |                             | 208        Already Reported|                                        
 |3xx   | Redirection                 | 301        Moved Permanently |                                    
 |4xx   | Client error                | 400        Bad Request          |                                 
 |      |                             | 401        Unauthorized         |                                 
 |      |                             | 403        access forbidden , BBY 2017 |
-|      |                             | 405        Method Not Allowed   |                                 
+|      |                             | 405        Http Method Not Allowed   |                                 
+|      |                             | 409        duplicate req | 
+|      |                             | 499        Client closed request (nginx specific code) | 
 |5xx   | Server error                | 500        Internal Server Error|                                 
 |      |                             | 501        Not Implemented      |
 
