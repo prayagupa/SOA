@@ -14,7 +14,7 @@ and without higher layers you won't be able to share bandwidth.
 - **The next layer up is the link layer.**
 This layer covers communication with devices that share a physical communications medium. 
 
-Here, protocols like Ethernet, 802.11a/b/g/n, and Token Ring specify how to handle multiple 
+Here, protocols like [Ethernet](https://en.wikipedia.org/wiki/Ethernet), 802.11a/b/g/n, and Token Ring specify how to handle multiple 
 concurrent accesses to the physical medium and how to direct traffic to one device instead of another.
 
 - **The third layer is the network layer.** 
@@ -25,11 +25,20 @@ the world, without needing to know where it is.
 [Comparing TCP/IP applications vs HyperTextTP applications](https://softwareengineering.stackexchange.com/a/214251/31060)
 
 ```
-TCP is a protocol in the transport layer and HTTP is a protocol in the application layer.
+TCP  : is a protocol in the transport layer and 
+HTTP : is a protocol in the application layer.
 
 HTTP is over TCP/IP
 
-You want to add a application layer protocol over TCP (like HTTP) and then a content-type (like json, xml, html). 
+|---------------|
+|   HTTP        |
+|---------------|
+|   TCP/IP      |
+|---------------|
+
+You want to add a application layer protocol over TCP (like HTTP) 
+and then a content-type (like json, xml, html). 
+
 Netty let you use HTTP and content-type as protobuff which is equivalent to json, xml, html.
 ```
 
@@ -75,6 +84,52 @@ what is [CommonGatewayInterface](https://stackoverflow.com/a/5058873/432903)?
 ```
 a standard protocol for web servers to execute programs that execute like CLI programs 
 running on a server that generates web pages dynamically.
+```
+
+[Nagle's algorithm](https://en.wikipedia.org/wiki/Nagle%27s_algorithm)
+
+- `TCP_NODELAY`
+```bash
+curl -v 'https://api.github.com/users' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Upgrade-Insecure-Requests: 1' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' -H 'Accept-Language: en-US,en;q=0.9,fr;q=0.8'
+*   Trying 140.82.113.6...
+* TCP_NODELAY set
+* Connected to api.github.com (140.82.113.6) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/cert.pem
+  CApath: none
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: C=US; ST=California; L=San Francisco; O=GitHub, Inc.; CN=*.github.com
+*  start date: Jun 22 00:00:00 2020 GMT
+*  expire date: Aug 17 12:00:00 2022 GMT
+*  subjectAltName: host "api.github.com" matched cert's "*.github.com"
+*  issuer: C=US; O=DigiCert Inc; OU=www.digicert.com; CN=DigiCert SHA2 High Assurance Server CA
+*  SSL certificate verify ok.
+> GET /users HTTP/1.1
+> Host: api.github.com
+> User-Agent: curl/7.54.0
+> Connection: keep-alive
+> Pragma: no-cache
+> Cache-Control: no-cache
+> Upgrade-Insecure-Requests: 1
+> Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+> Accept-Language: en-US,en;q=0.9,fr;q=0.8
+> 
+< HTTP/1.1 200 OK
 ```
 
 [Hypertext Transfer Protocol -- HTTP/1.1 Draft](http://greenbytes.de/tech/webdav/rfc2616.html#rfc.status)
@@ -268,4 +323,4 @@ understand that no need to read response
 a socket is an endpoint in a (bidirectional) communication over the TCP/IP stack
 ```
 
-https://github.com/prayagupd/Scala-SOA
+Next - https://github.com/prayagupd/SOA/blob/master/2-REprStateTransfer.md
