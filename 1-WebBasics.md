@@ -43,16 +43,16 @@ Netty let you use HTTP and content-type as protobuff which is equivalent to json
 
 |                         |                        |                         |
 |-------------------------|------------------------|-------------------------|
-|`UniformResource I`      | identifies             | eg. name                |
-| `UniformResource L`     | identifies and locates | eg. physical adsress    |
-| `UniformResource I`/`N` | `urn:isbn:0-486-27557-4` |                       |
-| `UniformResource I`/`L` | `file://hostname/sharename/RomeoAndJuliet.pdf`   | 
+|`UniformResource I`      | Identifies             | eg. name                 |
+| `UniformResource L`     | Identifies and Locates | eg. physical address, [https://hostname/api/resource]()    |
+| `UniformResource I`/`Name` | `urn:isbn:0-486-27557-4` |                       |
+| `UniformResource I`/`Locator` | `file://hostname/sharename/RomeoAndJuliet.pdf`   | 
 
 **Step 2: Sending the request by browser with header infos** 
  - the browser transmits the following request to the server: 
 
 ```bash
-"GET /request-URI HTTP/version”
+"GET /request-URI HTTP/version"
 ```
 
 [Step 3: CGI/ The server response](http://www.garshol.priv.no/download/text/http-tut.html)
@@ -70,14 +70,14 @@ Content-type: text/html
 ...followed by document content...
 ```
 
-what is [CommonGatewayInterface](https://stackoverflow.com/a/5058873/432903)?
+What is [CommonGatewayInterface](https://stackoverflow.com/a/5058873/432903)?
 
 ```
 a standard protocol for web servers to execute programs that execute like CLI programs 
 running on a server that generates web pages dynamically.
 ```
 
-[Hypertext Transfer Protocol -- HTTP/1.1 Draft](http://greenbytes.de/tech/webdav/rfc2616.html#rfc.status)
+[HyperText Transfer Protocol -- HTTP/1.1 Draft](http://greenbytes.de/tech/webdav/rfc2616.html#rfc.status)
 
 [HyperTextTP Status codes](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), BBY, 2017
 --------------
@@ -85,13 +85,13 @@ running on a server that generates web pages dynamically.
 | code | for                         | desc                     |                    
 |------|-----------------------------|--------------------------|                                        
 |1xx   | Informational               | 102        Processing    |                                        
-|2xx   | Successful                  | 201        Created, gliffy, 2015 |                               
+|2xx   | Successful                  | 201        Created, "gliffy, 2015" |                               
 |      |                             | 202        Accepted        |                                 
 |      |                             | 208        Already Reported|                                        
 |3xx   | Redirection                 | 301        Moved Permanently |                                    
 |4xx   | Client error                | 400        Bad Request          |                                 
 |      |                             | 401        Unauthorized         |                                 
-|      |                             | 403        access forbidden , BBY 2017 |
+|      |                             | 403        access forbidden , "BBY 2017" |
 |      |                             | 405        Http Method Not Allowed   |                                 
 |      |                             | 409        duplicate req | 
 |      |                             | 499        Client closed request (nginx specific code) | 
@@ -105,8 +105,9 @@ https://stackoverflow.com/a/247026/432903
 
 ```
 | HTTP 1.0                                                        | HTTP 1.1
-| - have to open a new connection for each request/response pair. | - allows you to have persistent connections which means that you can have more than
-| And after each response the connection would be closed.         | one request/response on the same HTTP connection - https://en.wikipedia.org/wiki/HTTP_persistent_connection
+| - have to open a new connection for each request/response pair. | - allows you to have persistent connections which means that 
+|   And after each response the connection would be closed.       | you can have more than one request/response on the same HTTP connection
+|                                                                 | - https://en.wikipedia.org/wiki/HTTP_persistent_connection
 |                                                                 | - OPTIONS method - to determine the abilities of the HTTP server.
 | - had caching via `If-Modified-Since`                           | - added `ETag` - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag
 ```
