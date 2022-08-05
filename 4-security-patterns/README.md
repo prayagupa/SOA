@@ -24,3 +24,4 @@ references
 ------------
 - https://geekflare.com/securing-microservices/
 - https://www.aquasec.com/cloud-native-academy/cloud-native-applications/microservices-security/
+- https://resilience4j.readme.io/docs/ratelimiter
