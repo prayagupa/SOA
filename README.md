@@ -145,3 +145,7 @@ Compound Patterns
 [SOA Patterns - Book Review](http://mkuthan.github.io/blog/2014/06/26/soa-patterns-book-review/)
 
 [Patterns for distributed system](http://www.slideshare.net/pagsousa/patterns-fro-distributed-systems)
+
+References
+------------
+- https://github.com/puncsky/system-design-and-architecture
