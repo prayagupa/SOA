@@ -74,3 +74,8 @@ STEP 6) Detailed design
 - Load Balancer (LB)
 - Telemetry
 - Security and Permissions
+
+
+Other designs
+----
+- https://github.com/puncsky/system-design-and-architecture/blob/master/en/84-designing-a-url-shortener.md
