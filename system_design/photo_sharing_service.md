@@ -122,3 +122,8 @@ Considering 80% traffic - from 20% read, we can use ContentDeliveryNetwork for c
 - total number of views on media
 - total time spent on media
 - check if media post reported (Authentic communication)
+
+
+Other designs
+-------------
+- https://github.com/puncsky/system-design-and-architecture/blob/master/en/121-designing-facebook-photo-storage.md
