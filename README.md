@@ -149,3 +149,7 @@ Compound Patterns
 References
 ------------
 - https://github.com/puncsky/system-design-and-architecture
+
+See: 
+- Chapter 5, Implementing Microservice Communication, Sam Newman: https://github.com/lamatola-os/microservice-skeleton
+
