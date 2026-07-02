@@ -1,4 +1,4 @@
-file-sharing service
+file-sharing service: OneDrive
 --------------------------
 - enables users to store their data on remote servers
 
@@ -12,8 +12,7 @@ users should be able to
 - share files with other users
 - see updated (synchronized) files between multiple devices
 - should allow offline editing
-- should maintain file snapshots so that user can decide to restore previous 
-versions 
+- should maintain file snapshots so that user can decide to restore previous versions 
 
 2. non functional req
 - highly available (while uploading videos/photos etc)
@@ -31,7 +30,7 @@ STEP 2) scaling estimation
 - average photo/ video size - 200KB
 
 - storage estimation
-- `space / day` = 2Mil * 200KBytes per day = 400 GB
+- `space / day` = 2Mil videos * 200KBytes per day = 400 GB
 - total space/ year = `space per day` * 365 = 146,000 Gi = 146TB
 
 STEP 3) System interface definition
@@ -60,7 +59,7 @@ STEP 4) data model definition/ design
 -- psql
 
 CREATE TABLE user(
-  user_id           SERIAL PRIMARY KEY,
+  id                SERIAL PRIMARY KEY,
   username          VARCHAR(16),
   password          VARCHAR(255),
   created_date_time TIMESTAMPZ DEFAULT CURRENT_TIMESTAMP,
@@ -69,7 +68,7 @@ CREATE TABLE user(
 )
 
 create table media(
-  media_id            SERIAL PRIMARY KEY,
+  id                  SERIAL PRIMARY KEY,
   user_id             BIGINT REFERENCES user(user_id),
   media_type          VARCHAR(10),
   media_resource_path VARCHAR(255), --azure storage, gcp storage link etc
@@ -79,10 +78,10 @@ create table media(
 )
 
 CREATE TABLE media_comment (
-  comment_id         SERIAL PRIMARY KEY
-  media_id           BIGINT REFERENCES media(media_id),
+  id                  SERIAL PRIMARY KEY,
+  media_id           BIGINT REFERENCES media(id),
   comment_text       VARCHAR(255),
-  commented_by       BIGINT REFERENCING user(user_id),
+  commented_by       BIGINT REFERENCES user(id),
   created_date_time  TIMESTAMPZ,
   modified_date_time TIMESTAMPZ, --create media_comment_history(??)
   is_deleted         BOOLEAN,
@@ -92,8 +91,8 @@ CREATE TABLE media_comment (
 -- followers
 CREATE TABLE user_follower (
   id          SERIAL PRIMARY KEY,
-  user_id     BIGINT REFERENCING user(user_id),
-  follower_id BIGINT REFERENCING user(user_id),
+  user_id     BIGINT REFERENCES user(id),
+  follower_id BIGINT REFERENCES user(id),
   followed_on TIMESTAMPZ,
   is_deleted  BOOLEAN,
   deleted_on  TIMESTAMPZ
@@ -113,7 +112,7 @@ STEP 6) Detailed design
 
 - Load Balancer (LB)
 - Cache: 
-Considering 80% traffic - from 20% read, we can use ContentDeliveryNetwork for cache highly used media posts
+Considering 80% traffic - from 20% read, we can use ContentDeliveryNetwork to cache highly used media posts
 
 - Telemetry
 - Security and Permissions

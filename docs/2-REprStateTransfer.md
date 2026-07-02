@@ -1,339 +1,402 @@
-[REp State Transfer](http://www.restapitutorial.com/lessons/whatisrest.html)
--------------------------------------------------------------
+# REST — Representational State Transfer: Principal Engineer's Reference
 
-- REST supports different media format like `text`, `JSON`, `XML`, `RSS` (Really Simple Syndication) etc.
-- if I use JSON then definitely we will be in better place in terms of payload.
-  [JSON and XML comparison](http://stackoverflow.com/a/4862530/432903) (4M vs 300K)
-  JSON is both more compact and more readable - in transmission it can be "faster" simply 
-  because less data is transferred.
+> REST is not a protocol. It is an **architectural style** — a set of constraints that, when applied, produce a system with desirable properties: scalability, statelessness, cacheability, and uniform interfaces. Most APIs called "REST" are not RESTful. This matters at scale.
 
-- Safety - Transport dependent
-  REST over HTTP, all security measures applied HTTP are inherited and this is known as transport level security(TLS) 
-  and it secures messages only while it is inside the wire but once you delivered it on the other side you don’t 
-  really know how many stages it will have to go through before reaching the real point where the data will be processed. 
-  And of course all those stages could use something different than HTTP.
-  
-  So REST is not safer completely, right?
-
-- REST uses HTTP/HTTPS as application protocol, but one of the advantages of SOAP is the use of the 
-  "generic" transport. (most important to remember)
-
-- Supports only TLS/SSL(Secure Sockets Layer), gliffy 2015, JWN 2016
-  
-  TLS is good only for P2P communication: 
-  
-  ! TLS works by encrypting the transport data between two end points. 
-  
-  ! For a Web Service, the call routes through more intermediaries nodes than just two end points. 
-    where as, WS Security solves this problem and its an END-TO-END Solution.
-
-- As REST is limited by it's HTTP protocol so it’s transaction support is neither ACID compliant nor
-  can provide 2PC (two phase commit) across distributed transactional resources. JWN 2016
-
-https://docs.google.com/document/d/1H_Zv_8QECBlWsmlg5Hmu4MDwVuCKTuXdgRYoC9rsOI4/edit#
-
-http://martinfowler.com/articles/microservices.html
-
-[crucial points to understand what REST is about](http://stackoverflow.com/a/19884975/432903) (AmEx, 2015)
-
-[What is HTTP request/ response header?](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Request_fields)
-
-_HTTP header fields are -> components of the header section of request and response messages in the HTTP. 
-They define the operating parameters of an HTTP transaction._
-
-[Can REST be implemented over FTP, not just HTTP?](https://stackoverflow.com/a/35535386/432903)
-
-```
-With a normal FTP server this is probably not possible 
-(GET, PUT, DELETE could probably be mapped to RETR, STOR and DELE, but POST not) 
-but the FTP protocol itself could be used with a custom server and 
-I've actually seen the FTP protocol misused for database 
-like transactions with commit and rollback (scary!)
-```
-
-[HypertextTP request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods), BBY, 2017
----------------------
-
-```
-| method  | 
-|---------|-------------------
-| GET     | R
-| HEAD    | requests the headers that are returned if the specified resource 
-|         | would be requested with an [HTTP GET method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
-| POST    | C
-| PATCH   | U/Mofidy
-| PUT     | U/Replace
-| DELETE  | D
-|         |
-| OPTIONS | describe the communication [options for the target resource](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS) 
-|         | 
-| CONNECT | starts two-way [communications with the requested resource](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/CONNECT)
-| TRACE   | 
-```
-
-http://www.restapitutorial.com/lessons/httpmethods.html
-
-[HTTP Request Headers](https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html), BBY, 2017
-
-```
-request-header = Accept             
-              | Accept-Charset
-              | Accept-Encoding
-              | Accept-Language     
-              | Authorization     (eg. Authorization: Basic/ Bearer)
-              | Expect       
-              | From                
-              | Host                
-              | If-Match            
-              | If-Modified-Since   
-              | If-None-Match       
-              | If-Range            
-              | If-Unmodified-Since 
-              | Max-Forwards        
-              | Proxy-Authorization 
-              | Range               
-              | Referer             
-              | TE                  
-              | User-Agent (eg. android/ ios/ curl)
-```
-
-```js
-$.ajax({
-         url: "http://eSewa.com/SignIn",
-         data: { signature: authHeader },
-         type: "GET",
-         beforeSend: function(xhr){
-              xhr.setRequestHeader('Accept': 'text/plain', 
-                                   'Cache-Control': 'no-cache');
-         },
-         success: function() { 
-               console.log('Success!' + authHeader); 
-         }
-});
-```
-
-HTTPSecurity/ HTTP auth
---------------------
-
-Encrypt/Decrypt Examples - https://github.com/prayagupd/enc-dec-scala
-
-risks - sessions sniffed in HTTP
-
-https://en.wikipedia.org/wiki/Transport_Layer_Security
-
-http://docs.aws.amazon.com/AmazonS3/latest/dev/S3_Authentication2.html
-
-http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#UsingTemporarySecurityCredentials
-
-[TLS/ Communication Cryptography](https://stackoverflow.com/a/4948393/432903)
---------------------------
-
-_Encryption should only ever be used over hashing when it is a necessity to decrypt 
-the resulting message._
-
-- TLS only secures the communication
-
-```
-                         ----------------------------------------       ---------------------------
-payload -> encryption -> encrypted payload           connection tunnel  socket endpoint -> decryption -> payload
-                         ----------------------------------------       --------------------------
-```
-
-1) [Rivest–Shamir–Adleman public key cryptosystem(asymmetric), 1977](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Padding)
-
-_In such a cryptosystem, the encryption key is public and it is different from the decryption key 
-which is kept secret (private)._
-
-2) [Advanced Encryption Standard(AES) - symmetric 128bits Block size](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard), 2007
-
-_The algorithm described by AES is a symmetric-key algorithm, meaning the same key is used for 
-both encrypting and decrypting the data._
-
-[How to choose an AES encryption mode (CBC ECB CTR OCB CFB)?](https://stackoverflow.com/a/1220869/432903)
-
-2.1 [Electronic Code Block](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_Codebook_.28ECB.29)
-
-_The message is divided into blocks, and each block is encrypted separately._
-
-![](https://upload.wikimedia.org/wikipedia/commons/d/d6/ECB_encryption.svg)
-
-[Pretty Good Privacy(PGP)](https://en.wikipedia.org/wiki/Pretty_Good_Privacy) - http://www.pitt.edu/~poole/accessiblePGP703.htm
-
-[Security & Authentication: TLS protocol vs SASL framework](https://stackoverflow.com/a/11385658/432903)
-
-[Secure Hash Algos 2 - 256 bits](https://stackoverflow.com/a/990775/432903)
-
-Payload validation with checksum
 ---
 
-[Hash-based MAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
+## What REST Actually Is — Beyond the Buzzword
 
-- Can be generated online at - https://www.freeformatter.com/hmac-generator.html#ad-output
-- https://github.com/duwamish-os/http-signature
+REST was defined by Roy Fielding in his 2000 doctoral dissertation. The six constraints that define a REST architecture:
 
+| Constraint | What It Means | Why It Matters at Scale |
+|---|---|---|
+| **Client-Server** | Separation of UI concerns from data storage | Independent scalability of frontend and backend |
+| **Stateless** | Each request contains all information needed — no server-side session | Enables horizontal scaling; any instance can serve any request |
+| **Cacheable** | Responses must declare whether they are cacheable | Reduces origin load by 80–95% with correct `Cache-Control` headers |
+| **Uniform Interface** | Resources, representations, self-descriptive messages, HATEOAS | Decouples client from server implementation; enables API evolution |
+| **Layered System** | Client cannot tell if it's talking to origin or intermediary | Enables CDN, API gateways, load balancers transparently |
+| **Code on Demand** (optional) | Server can send executable code to client | Rarely used; enables extensibility |
+
+**The stateless constraint is the most critical for scale.** The moment you store session state in a server-side HTTP session (Tomcat `HttpSession`, in-memory session store), you have broken REST and destroyed horizontal scalability. Every session becomes an affinity that ties a client to a specific instance.
+
+**Correct approach**: State belongs in the client (JWT) or a distributed store (Redis, DynamoDB) — never in the application server process.
+
+---
+
+## Resource Design — The Heart of REST API Quality
+
+A resource is a conceptual entity, not a database table. A representation is a snapshot of that resource's state at a point in time.
+
+### Resource Naming — Rules Every Engineer Must Follow
+
+```
+# ✅ Correct — nouns, plural, lowercase, hyphenated
+GET  /v1/users
+GET  /v1/users/{userId}
+GET  /v1/users/{userId}/orders
+POST /v1/users/{userId}/orders
+GET  /v1/payment-methods/{paymentMethodId}
+
+# ❌ Wrong — verbs, mixed case, actions as paths
+GET  /getUser
+POST /createOrder
+POST /users/UpdateProfile
+GET  /user-Orders/{UserId}
+```
+
+**Why nouns?** HTTP methods ARE the verbs. `POST /users` already means "create a user". `POST /createUser` is redundant and breaks uniform interface.
+
+### HTTP Methods — Semantics and Idempotency
+
+| Method | Semantics | Idempotent | Safe (no side effects) | Use Case |
+|---|---|---|---|---|
+| **GET** | Read resource(s) | ✅ Yes | ✅ Yes | Fetch single resource or collection |
+| **HEAD** | Read headers only | ✅ Yes | ✅ Yes | Check existence, ETag, Content-Length without downloading body |
+| **POST** | Create or trigger action | ❌ No | ❌ No | Create resource, trigger async workflow |
+| **PUT** | Replace entire resource | ✅ Yes | ❌ No | Full resource replacement (must send complete representation) |
+| **PATCH** | Partial update | ❌ No* | ❌ No | Partial updates — use JSON Patch (RFC 6902) for well-defined semantics |
+| **DELETE** | Remove resource | ✅ Yes | ❌ No | Delete — return 204 if deleted, 404 if not found |
+| **OPTIONS** | Describe capabilities | ✅ Yes | ✅ Yes | CORS preflight; service capability discovery |
+
+*PATCH can be made idempotent with conditional requests (`If-Match` + ETag).
+
+**Idempotency is not optional at scale.** Networks fail. Clients retry. Load balancers retry on connection failure. If your `POST /orders` is not idempotent, you will create duplicate orders. The fix:
+- Accept a client-provided **idempotency key** header (`Idempotency-Key: <uuid>`)
+- Store the key and response; return the cached response for duplicate requests
+- This is standard practice at Stripe, Square, Adyen, and every payment processor at scale
+
+```
+POST /v1/orders
+Idempotency-Key: 550e8400-e29b-41d4-a716-446655440000
+Content-Type: application/json
+
+{"item": "SKU-123", "quantity": 2}
+```
+
+---
+
+## API Versioning — Never Break Your Consumers
+
+**API versioning is a contract commitment to your consumers.** Breaking changes without versioning cause cascading failures in production at 3am on a Friday.
+
+### Versioning Strategies
+
+| Strategy | Example | Trade-offs |
+|---|---|---|
+| **URL path versioning** | `/v1/users`, `/v2/users` | ✅ Explicit, cacheable, debuggable. ✅ Preferred |
+| **Query parameter** | `/users?version=2` | ❌ Cache-unfriendly, easy to omit |
+| **Header versioning** | `Accept: application/vnd.myapi.v2+json` | ❌ Not visible in URL, harder to debug and route |
+| **Subdomain** | `v2.api.retailer.com` | ❌ DNS overhead, TLS cert complexity |
+
+**Recommendation**: Use URL path versioning. It is explicit, cacheable, and trivially routable at the API gateway layer.
+
+### Backward-Compatible Change Rules
+
+```
+✅ Safe changes (no version bump required):
+   - Adding new optional request fields
+   - Adding new response fields
+   - Adding new endpoints
+   - Adding new enum values (if client is lenient)
+
+❌ Breaking changes (require new version):
+   - Removing or renaming fields
+   - Changing field types
+   - Changing error response structure
+   - Removing endpoints
+   - Changing authentication scheme
+```
+
+---
+
+## Request and Response Design
+
+### Request Headers — Standard Fields
+
+```
+Authorization: Bearer <JWT>                  # Authentication
+Content-Type: application/json               # Request body format
+Accept: application/json                     # Desired response format
+Idempotency-Key: <uuid>                      # Deduplication (mutations only)
+X-Request-ID: <uuid>                         # Distributed tracing correlation ID
+X-Forwarded-For: <client-ip>                 # Original client IP (set by proxy)
+User-Agent: MyApp/2.1.0 (iOS 17.0)          # Client identification
+If-None-Match: "etag-value"                  # Conditional GET (cache validation)
+If-Match: "etag-value"                       # Conditional mutation (optimistic locking)
+```
+
+### Response Structure — Consistency Is a Contract
+
+**Always return consistent, structured responses.** Inconsistent response shapes are the #1 cause of client-side bugs and API integration failures.
+
+```json
+// ✅ Success response
+{
+  "data": {
+    "id": "usr_123",
+    "email": "user@retailer.com",
+    "createdAt": "2026-04-26T12:00:00Z"
+  },
+  "meta": {
+    "requestId": "req_abc123",
+    "timestamp": "2026-04-26T12:00:01Z"
+  }
+}
+
+// ✅ Error response — structured, actionable, never leaks internals
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "Request validation failed",
+    "details": [
+      {"field": "email", "issue": "Invalid email format"},
+      {"field": "age",   "issue": "Must be 18 or older"}
+    ],
+    "requestId": "req_abc123",
+    "docsUrl": "https://api.retailer.com/docs/errors#VALIDATION_FAILED"
+  }
+}
+```
+
+**Never expose**: stack traces, internal class names, SQL queries, file paths, or internal service names in error responses. Log them internally with the `requestId` for correlation.
+
+### Pagination — Cursor-Based Is the Only Choice at Scale
+
+**Offset-based pagination breaks at scale.** `LIMIT 20 OFFSET 10000` forces the database to scan 10,020 rows and discard 10,000. At page 500 with high concurrency, this becomes a full-table scan on every paginated request.
+
+```
+❌ Offset pagination (avoid for large datasets)
+GET /v1/orders?page=500&pageSize=20
+← scans 10,020 rows, unstable under concurrent inserts
+
+✅ Cursor-based pagination (use this)
+GET /v1/orders?limit=20&after=cursor_enc_ord_9876
+← scans exactly 21 rows, stable under concurrent inserts
+← returns: {"data": [...], "nextCursor": "cursor_enc_ord_9856", "hasMore": true}
+```
+
+Cursor values should be **opaque to the client** (base64-encoded, encrypted) to allow server-side implementation changes without breaking clients.
+
+---
+
+## Security — Authentication and Authorization
+
+### HTTP is Stateless — State the Problem, Then Solve It Correctly
+
+HTTP has no built-in notion of "logged in user." Every request is independent. **This is a feature, not a bug** — it enables horizontal scaling. Authentication must be explicit on every request.
+
+### Auth Patterns — Comparison
+
+| Pattern | Mechanism | Stateless? | Use Case |
+|---|---|---|---|
+| **Basic Auth over TLS** | `Authorization: Basic base64(user:pass)` | ✅ Yes | Internal services, scripts — never for user-facing APIs |
+| **API Key** | `Authorization: ApiKey <key>` or custom header | ✅ Yes | Service-to-service, developer APIs |
+| **JWT (Bearer Token)** | `Authorization: Bearer <jwt>` | ✅ Yes | User-facing APIs — self-contained claims |
+| **OAuth 2.0** | Authorization Code / Client Credentials flow | ✅ Yes | Delegated access, third-party integrations |
+| **mTLS** | Client certificate in TLS handshake | ✅ Yes | Service-to-service in zero-trust networks |
+| **Session Cookie** | `Set-Cookie: JSESSIONID=...` | ❌ No | Legacy web apps — breaks horizontal scaling without sticky sessions |
+
+**JWT at scale — what engineers miss:**
+- JWTs are **not encrypted by default** — they are base64-encoded and signed. Never put PII in JWT claims unless using JWE (JSON Web Encryption).
+- JWTs **cannot be invalidated** before expiry without a blocklist (which reintroduces state). Keep JWT TTLs short (15 minutes for access tokens) and use refresh tokens.
+- Validate **every claim**: `iss`, `aud`, `exp`, `nbf`. A JWT from your own issuer with `aud: other-service` must be rejected by your service.
+
+### TLS — Transport Security
+
+TLS encrypts communication in transit between two endpoints only. It provides no protection once the data is received and decrypted.
+
+```mermaid
+flowchart LR
+  P1["📄 Plaintext\nPayload"] -->|encrypt| W["🔒 Encrypted Bytes\non the Wire\n— TLS protects HERE only —"]
+  W -->|decrypt| P2["📄 Plaintext\nPayload"]
+  style W fill:#e74c3c,color:#fff
+  style P1 fill:#3498db,color:#fff
+  style P2 fill:#3498db,color:#fff
+```
+
+For end-to-end protection across multiple service hops, use **application-layer encryption** (envelope encryption with a KMS) — not TLS alone.
+
+**TLS configuration checklist:**
+- TLS 1.3 minimum (disable 1.0, 1.1, and 1.2 where possible)
+- Strong cipher suites only: `ECDHE-RSA-AES256-GCM-SHA384`, `CHACHA20-POLY1305`
+- HSTS header: `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
+- Certificate rotation automated (90-day certs with auto-renewal via ACME/Let's Encrypt)
+
+### Cryptographic Primitives
+
+| Primitive | Type | Use Case |
+|---|---|---|
+| **RSA-2048+** | Asymmetric | Key exchange, digital signatures, certificate signing |
+| **AES-256-GCM** | Symmetric | Bulk data encryption (authenticated encryption) |
+| **SHA-256 / SHA-3** | Hash | Data integrity, password hashing (use bcrypt/argon2 for passwords, not SHA) |
+| **HMAC-SHA256** | MAC | Request signing, webhook payload validation |
+| **ECDSA / Ed25519** | Asymmetric signature | JWT signing (prefer over RSA for performance) |
+
+**HMAC for API request signing:**
 ```java
-var hash_based_auth_code = function hash_based_MAC ("SHA-1" or "MD5", message) {}
+// Server-side validation of signed webhook/API request
+Mac mac = Mac.getInstance("HmacSHA256");
+mac.init(new SecretKeySpec(apiSecret.getBytes(), "HmacSHA256"));
+byte[] signature = mac.doFinal(requestBody.getBytes());
+String expected = Base64.getEncoder().encodeToString(signature);
+// Compare with constant-time comparison to prevent timing attacks
+MessageDigest.isEqual(expected.getBytes(), receivedSignature.getBytes());
 ```
 
-* Hash-based Message auth code (HMAC)
+---
 
-```java
-jshell> import javax.crypto.*
+## Rate Limiting and Backpressure
 
-//jshell> var key = KeyGenerator.getInstance("HmacMD5").generateKey()
-//key ==> javax.crypto.spec.SecretKeySpec@c2f225ef
-
-jshell> import javax.crypto.spec.*
-
-jshell> var key = new SecretKeySpec("api-key".getBytes(), "HmacMD5")
-key ==> javax.crypto.spec.SecretKeySpec@3d0dd473
-
-jshell> var m_auth_code = Mac.getInstance("HmacMD5")
-m_auth_code ==> javax.crypto.Mac@5679c6c6
-
-jshell> m_auth_code.init(key)
-
-jshell> m_auth_code.doFinal("pra".getBytes())
-$9 ==> byte[16] { 114, -117, 101, -50, 48, 86, -1, -38, -58, 32, 115, 10, 125, 78, 124, -73 }
-
-jshell> import java.math.BigInteger
-jshell> new BigInteger($9)
-$10 ==> 152255785642148653639597405347834133687
-
-jshell> $10.toString(16)
-$11 ==> "728b65ce3056ffdac620730a7d4e7cb7"
+Every public-facing API must implement rate limiting. Without it, a single misbehaving client can cause a denial-of-service for all other clients.
 
 ```
+# Response when rate limit is exceeded
+HTTP/1.1 429 Too Many Requests
+Retry-After: 30
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1714132800
 
-https://security.stackexchange.com/questions/36932/what-is-the-difference-between-ssl-and-x-509-certificates
-
-TLS transmission example:
-
-https://github.com/prayagupd/tls.kotlin
-
-[Auth/ Request Identification in RESTful/Java webservice](http://stackoverflow.com/a/19896997/432903)
---------------------------------------------
-
-You first need to understand that HyperTextTP is a stateless protocol. (WebArchitecture, 2016)
-
-- This means that each request that a client makes has no relation to any previous or future requests. 
-However, as users, we very much want some state when interacting with a web application. 
-A - bank application, for example, only wants you to be able to see and manage your transactions.
-- A music streaming website might want to recommend some good beats based on what you've already heard.
-
-
-<b>To achieve this, the `CookieMap` (Spec) and Session concepts were introduced.</b>
-
-- Cookies are KVPs, but with a specific format (see the links). 
-- `Session`s are server-side entities that store information (in memory or persisted) that spans multiple 
-requests/responses between the server and the client. (Intempt, 2015)
-
-The HttpServlet `HttpSession` uses a cookie with the key name `JSESSIONID` and a value that identifies 
-the session.
-
-The HttpServlet container keeps a map (YMMV) of `HttpSession` objects and these JSESSIONID identifiers. 
-
-- When a client first makes a request, the server creates an HttpSession object with a unique identifier 
-and stores it in its map. 
-- It then adds a `--Set-Cookie` header in the response. It sets the cookie's name to `JSESSIONID` and 
-its value to the identifier it just created.
-- `Set-Cookie: JSESSIONID=64 byte string; expires=10/28/2039;`
-
-- Then client store the JSESSIONID somewhere in filesystem. eg, chrome client, 
-
-`/Users/urayagppd/Library/Application\ Support/Google/Chrome/Default/Cookies`
-
-This is the most basic Cookie that a server uses. You can set any number of them with any 
-information you wish. 
-
-The HttpServlet API makes that a little simpler with the `HttpServletResponse#addCookie(Cookie)`
-method but you could do it yourself with the `HttpServletResponse#addHeader(String, String)` method.
-
-Request Auth
---------------
-
-* Basic Auth over TLS
-* Digest Auth - https://tools.ietf.org/html/rfc2617#section-3
-* [OpenAuth(orization) standard](https://stormpath.com/blog/what-the-heck-is-oauth)
-
-   http://www.cubrid.org/blog/dancing-with-oauth-understanding-how-authorization-works
-
-![](https://oauth.net/core/diagram.png)
-
-[How Java webcontainer spawns new thread for each request?](http://www.tutorialspoint.com/servlets/servlets-life-cycle.htm)
-------------------------------------------------------------------------------
-
-How Server identifies its client?
-
-- The client receives the `CookiesMap` and can store them somewhere, typically in a text file. 
-When sending a new request to the server, it can use that cookie in the request's `--Cookie` header 
-to notify the server that it might have done a previous request.
-
-- When the Servlet container receives the request, it extracts the `--Cookie` header value and tries to 
-retrieve an `HttpSession` object from its map by using the key in the `JSESSIONID` cookie. 
-
-- This `HttpSession` object is then attached to the `HttpServletRequest` object that the Servlet 
-container creates and passes to your Servlet.
-You can use the `setAttribute(String, Object)` and `getAttribute(String)` methods to manage state.
-
-HypertextTP GET Response header fields
----------------------------------------
-
-```bash
-$ curl -v --HEAD --http1.1 https://www.tumblr.com/docs/en/api/v2
-HTTP/1.1 200 OK
-Server: openresty
-Date: Sat, 15 Oct 2016 01:37:16 GMT
-Content-Type: text/html; charset=UTF-8
-Connection: keep-alive
-Vary: Accept-Encoding
-Vary: Accept-Encoding
-P3P: CP="Tumblr's privacy policy is available here: https://www.tumblr.com/policy/en/privacy"
-X-Frame-Options: deny
-X-UA-Compatible: IE=Edge,chrome=1
-Accept-Ranges: bytes ;; https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+{"error": {"code": "RATE_LIMIT_EXCEEDED", "message": "Rate limit of 1000 req/min exceeded. Retry after 30s."}}
 ```
 
-```bash
-curl -iX OPTIONS https://www.tumblr.com/docs/en/api/v2
-HTTP/1.1 200 OK
-Server: openresty
-Date: Mon, 24 Oct 2016 07:36:40 GMT
-Content-Type: text/html; charset=UTF-8
-Content-Length: 4
-Connection: keep-alive
-Vary: Accept-Encoding
-Set-Cookie: tmgioct=580dba082b52000104091160; expires=Thu, 22-Oct-2026 07:36:40 GMT; Max-Age=315360000; path=/; domain=.tumblr.com; HttpOnly
-X-UA-Compatible: IE=Edge,chrome=1
-Accept-Ranges: bytes
+**Rate limiting strategies:**
 
-done
-```
+| Algorithm | Behavior | Trade-offs |
+|---|---|---|
+| **Fixed Window** | N requests per window | Simple; burst allowed at window boundary |
+| **Sliding Window** | N requests in last N seconds | Accurate; more complex state |
+| **Token Bucket** | Tokens refill at rate R, burst up to capacity C | Allows controlled bursting; widely used |
+| **Leaky Bucket** | Requests processed at fixed rate, excess queued/dropped | Smooth output; poor for bursty legitimate traffic |
 
-[Security headers](http://webmasters.stackexchange.com/a/5661/14960)
+**At scale**: Rate limiting state must live in a distributed store (Redis with Lua scripts for atomicity) — not in-process memory. In-process rate limiting is useless behind a load balancer with 10 instances.
 
-```bash
-# Don't allow any pages to be framed by my site or any others
-# Defends against Clickjacking!
-Header set X-Frame-Options DENY
+---
 
-# Only allow JavaScript from the same domain to be run.
-# Also, don't allow inline JavaScript to run. 
-Header set X-Content-Security-Policy "allow 'self';"
+## REST vs Alternatives — Choose the Right Tool
 
-# Turns on IE 8 XSS prevention tools
-Header set X-XSS-Protection "1; mode=block"
+| Protocol | Best For | Not For |
+|---|---|---|
+| **REST/HTTP** | Public APIs, CRUD resources, browser clients | Real-time, streaming, binary efficiency |
+| **gRPC** | Internal service-to-service, high throughput, typed contracts | Browser clients (limited support), simple CRUD |
+| **GraphQL** | Client-driven queries, reducing over/under-fetching | Services where query complexity control is critical |
+| **WebSocket** | Real-time bidirectional communication | Simple request/response |
+| **SOAP** | Enterprise integrations with WS-Security, ACID transactions | New systems — complexity not justified |
 
-# Don't send out the Server header. This way no one knows what 
-# version of Apache and PHP I am using
-Header unset Server
-```
+**gRPC advantages over REST for internal services:**
+- **Binary (Protocol Buffers)**: ~5–10x smaller payload than JSON, faster serialization
+- **Strongly typed contracts**: compile-time API contract enforcement, no runtime schema drift
+- **Bidirectional streaming**: native support without WebSocket upgrade complexity
+- **HTTP/2 multiplexing**: multiple concurrent RPCs on a single connection
 
+---
 
-[What are request scopes in HTTP requests?](http://www.java-samples.com/showtutorial.php?tutorialid=1009) (WebArchitecture, Jan2016)
+## Content Negotiation and Media Types
 
 ```
-scope="request" (same both in jsp/ spring)
-scope="session" (same both in jsp/ spring)
-scope="application" (global-session in spring)
+# Client requests specific format
+GET /v1/reports/monthly
+Accept: application/json          # Prefer JSON
+Accept: text/csv                  # Or CSV
+Accept: application/octet-stream  # Or binary
+
+# Server responds with what it can provide
+Content-Type: application/json; charset=utf-8
+
+# Server cannot provide requested format
+HTTP/1.1 406 Not Acceptable
 ```
+
+**Common media types in production APIs:**
+
+| Media Type | Use Case |
+|---|---|
+| `application/json` | Standard REST API payloads |
+| `application/json+problem` (RFC 7807) | Structured error responses — standardized |
+| `application/vnd.api+json` | JSON:API spec — standardized pagination, relationships |
+| `application/x-protobuf` | gRPC / binary Protocol Buffers |
+| `multipart/form-data` | File uploads |
+| `application/x-ndjson` | Streaming newline-delimited JSON (log ingestion, bulk APIs) |
+
+---
+
+## HATEOAS — Hypermedia as the Engine of Application State
+
+The most commonly omitted REST constraint. HATEOAS means responses include links to valid next actions, so clients do not need to hardcode URL structures.
+
+```json
+{
+  "data": {
+    "id": "order_123",
+    "status": "pending",
+    "total": 49.99
+  },
+  "links": {
+    "self":    {"href": "/v1/orders/order_123",        "method": "GET"},
+    "confirm": {"href": "/v1/orders/order_123/confirm","method": "POST"},
+    "cancel":  {"href": "/v1/orders/order_123/cancel", "method": "DELETE"},
+    "payment": {"href": "/v1/orders/order_123/payment","method": "POST"}
+  }
+}
+```
+
+**Practical benefit at scale**: HATEOAS decouples client navigation logic from server URL structure, enabling server-side URL changes and workflow changes without client redeployment. GitHub's API is a well-known example.
+
+---
+
+## REST vs SOAP — When Each Makes Sense
+
+| Dimension | REST | SOAP |
+|---|---|---|
+| **Transport** | HTTP/HTTPS (primarily) | HTTP, SMTP, TCP, any transport |
+| **Message Format** | JSON, XML, any | XML only (SOAP envelope) |
+| **Security** | TLS (transport-level) | WS-Security (message-level, end-to-end across hops) |
+| **Transactions** | No native support (use Saga pattern) | WS-AtomicTransaction (distributed ACID) |
+| **Contract** | OpenAPI (optional) | WSDL (mandatory, machine-readable) |
+| **Performance** | Lower overhead | Higher overhead (XML verbosity) |
+| **Enterprise Integration** | Growing adoption | Entrenched in financial/telecom systems |
+
+**REST's transport-level security limitation**: TLS encrypts data between two endpoints. In the chain below, each hop decrypts and re-encrypts — a compromised intermediate node can read plaintext:
+
+```mermaid
+flowchart LR
+  C["Client"] -->|"🔒 TLS"| GW["API Gateway\n🔓 decrypts"]
+  GW -->|"🔒 TLS"| A["Service A\n🔓 decrypts"]
+  A -->|"🔒 TLS"| B["Service B\n🔓 decrypts"]
+  style GW fill:#e07b39,color:#fff
+  style A fill:#e07b39,color:#fff
+  style B fill:#e07b39,color:#fff
+```
+
+SOAP's WS-Security encrypts the message payload end-to-end — the message is the security boundary, not the transport. A compromised intermediate node can read the plaintext. For high-security multi-hop financial workflows (SWIFT, healthcare HL7), WS-Security remains relevant.
+
+---
+
+## API Design Review Checklist
+
+- [ ] Are all resources named with nouns (not verbs)?
+- [ ] Is every mutating endpoint idempotent (or protected with an Idempotency-Key)?
+- [ ] Is the API versioned (`/v1/`) with a documented deprecation policy?
+- [ ] Are all list endpoints paginated with cursor-based pagination?
+- [ ] Do all responses follow a consistent envelope structure?
+- [ ] Are error responses structured with field-level detail — no stack traces?
+- [ ] Are rate limiting headers returned on every response?
+- [ ] Is authentication stateless (JWT/API key) — no server-side session?
+- [ ] Are `Cache-Control` headers set correctly on every endpoint?
+- [ ] Is there an OpenAPI/Swagger spec committed to the repository?
+- [ ] Are breaking changes gated behind a new API version?
+- [ ] Is TLS 1.3 enforced with HSTS?
+
+---
+
+## Further Reading
+
+- [Roy Fielding's Dissertation — Architectural Styles and REST (2000)](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
+- [RFC 7807 — Problem Details for HTTP APIs](https://www.rfc-editor.org/rfc/rfc7807)
+- [RFC 6902 — JSON Patch](https://www.rfc-editor.org/rfc/rfc6902)
+- [The Pragmatic API — API design at Stripe](https://stripe.com/docs/api)
+- [gRPC vs REST — When to use each](https://grpc.io/docs/what-is-grpc/faq/)
+- [OAuth 2.0 — RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)
+- [JSON Web Token — RFC 7519](https://www.rfc-editor.org/rfc/rfc7519)
+
+Next: [SOAP — Simple Object Access Protocol](3-SimpleObjectAccessProtocol.md)

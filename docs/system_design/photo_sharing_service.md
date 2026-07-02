@@ -1,6 +1,8 @@
  photo-sharing service
 --------------------------
 
+Example: Instagram, Facebook etc
+
 STEP 1) requirements
 ---
 

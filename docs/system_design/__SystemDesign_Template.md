@@ -1,8 +1,21 @@
-STEP 1) Requirements
+## Table of Contents
+
+1. [Requirements](#step-1-requirements-user-stories)
+2. [Scaling Estimation](#step-2-scaling-estimation)
+3. [System Interface Definition](#step-3-system-interface-definition)
+4. [Data Model Definition / Design](#step-4-data-model-definition--design)
+5. [High-Level Design](#step-5-high-level-design)
+6. [Detailed Design](#step-6-detailed-design)
+7. [Identifying and Resolving Bottlenecks](#step-7-identifying-and-resolving-bottlenecks)
+8. [References](#references)
+
+---
+
+STEP 1) Requirements/ User Stories
 --
 
-- Functional Requirements
-- Non-Functional Requirements
+- Functional Requirements (User Stories)
+- Non-Functional Requirements (Scalability, Availability, Reliability, Consistency, etc)
 
 STEP 2) scaling estimation
 --
